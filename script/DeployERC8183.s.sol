@@ -11,7 +11,8 @@ contract DeployERC8183 is Script {
 
     function run() external {
         uint256 deployerPrivateKey = vm.envUint("DEPLOYER_PRIVATE_KEY");
-        address treasury = vm.envAddress("TREASURY_ADDRESS");
+        address deployer = vm.addr(deployerPrivateKey);
+        address treasury = vm.envOr("TREASURY_ADDRESS", deployer);
         address paymentToken = vm.envOr("PAYMENT_TOKEN", BASE_USDC);
 
         vm.startBroadcast(deployerPrivateKey);

@@ -10,6 +10,22 @@ https://eips.ethereum.org/EIPS/eip-8183
 - `implementation` - логика контракта.
 - `proxy` - основной адрес, который нужно использовать в приложениях (`createJob`, `fund`, `submit`, `complete`).
 
+## Текущий деплой на Base
+
+```text
+AgenticCommerce proxy:          0xD663f820500be769a3106A7d212E057d765e9D43
+AgenticCommerce implementation: 0xa7Ad4403b9fC4D8A742A0C4087CB892630D23Ee5
+Payment token:                  0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913
+Treasury:                       0xd7F0EFC1736AC7E32Db2F9F48692308C62c9B020
+```
+
+BaseScan:
+
+- Proxy: https://basescan.org/address/0xD663f820500be769a3106A7d212E057d765e9D43
+- Implementation: https://basescan.org/address/0xa7Ad4403b9fC4D8A742A0C4087CB892630D23Ee5
+
+Оба контракта верифицированы.
+
 ## 1. Установка Foundry
 
 ```bash
@@ -69,13 +85,13 @@ cp .env.example .env
 export DEPLOYER_PRIVATE_KEY=0xYOUR_PRIVATE_KEY_HERE
 ```
 
-Там же укажи treasury:
+Там же можно указать treasury:
 
 ```bash
 export TREASURY_ADDRESS=0xYOUR_TREASURY_ADDRESS
 ```
 
-`TREASURY_ADDRESS` - адрес, куда будут идти platform fees. На старте можно поставить адрес деплоера.
+`TREASURY_ADDRESS` - адрес, куда будут идти platform fees. Если оставить пустым, deploy script использует адрес деплоера.
 
 Важно:
 
@@ -172,17 +188,7 @@ cast call "$AGENTIC_COMMERCE" \
   --rpc-url "$BASE_RPC_URL"
 ```
 
-## 9. Использование с base-jobs.js
-
-После деплоя:
-
-```bash
-AGENTIC_COMMERCE=0xYOUR_PROXY_ADDRESS node base-jobs.js
-```
-
-`base-jobs.js` должен работать с proxy-адресом, не с implementation.
-
-## 10. Upgrade в будущем
+## 9. Upgrade в будущем
 
 Для UUPS upgrade деплоер/admin должен вызвать upgrade на proxy. Admin роли выдаются адресу, который деплоит proxy, потому что `initialize()` вызывается внутри конструктора `ERC1967Proxy`.
 

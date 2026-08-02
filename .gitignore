@@ -1,4 +1,5 @@
 .env
+base-jobs.js
 cache/
 out/
 broadcast/
